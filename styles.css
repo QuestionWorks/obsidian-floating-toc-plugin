@@ -310,6 +310,12 @@ settings:
   --floating-toc-line-width:18rem;
  
 }
+@media (max-width: 767px) {
+  .theme-light,
+  .theme-dark {
+    --floating-toc-line-width: 10rem; /* 适应较小屏幕 */
+  }
+}
 .theme-light{
   --floating-toc-header-background-color:var(--background-primary);
   --floating-toc-background-color: rgba(221, 221, 221, 0.3);
@@ -345,18 +351,21 @@ div.workspace-leaf-content[data-type="style-settings"] div.style-settings-headin
   content: "❤️";
 }
 
-
+/*设置当前位置指示条的颜色*/
 .heading-list-item.located .line-wrap .line {
-  background: rgb(var(--floating-toc-highlight-color-rgb),0.8);
-  height: 2.5px;
+  background: rgb(var(--floating-toc-highlight-color-rgb),0.8); 
+  /*height: 2.5px;*/
 }
 
+/*设置目录中当前所处位置标题的颜色*/
 .heading-list-item.located .text-wrap:not(.located) .text {
-  color: var(--floating-toc-highlight-color);
+  /*color: var(--floating-toc-highlight-color);*/
+  opacity: 1; /*add*/
 }
 
+/*设置目录中选中标题的背景色*/
 .heading-list-item .text-wrap.located .text {
-  background-color: rgba(var(--floating-toc-highlight-color-rgb),0.4);
+  /*background-color: rgba(var(--floating-toc-highlight-color-rgb),0.4);*/
 }
 
 .heading-list-item {
@@ -388,13 +397,18 @@ div.workspace-leaf-content[data-type="style-settings"] div.style-settings-headin
   }
 }
 
+/*设置指示条*/
 .heading-list-item .line-wrap .line {
   position: absolute;
   top: 50%;
   margin-top: calc(2px / -2);
-  height: 2px;
-  width: 1.5rem;
+  /*height: 2px;
+  width: 1.5rem;*/
+  height: 4px;
+  width: 20px;
   background: var(--floating-toc-line-color);
+
+  border-radius: 20px;  /*add*/
 }
 
 .heading-list-item .text-wrap {
@@ -424,6 +438,7 @@ div.workspace-leaf-content[data-type="style-settings"] div.style-settings-headin
   text-decoration: none;
   cursor: pointer;
   color: var(--floating-toc-font-color);
+  opacity: 0.5; /*Add*/
   backdrop-filter: blur(5px);
   background: var(--floating-toc-header-background-color);
 }
@@ -439,23 +454,28 @@ body.enable-heading-nowrap .heading-list-item .text-wrap .text {
 .heading-list-item .text-wrap .text:hover {
   color: var(--floating-toc-hover-color);
   font-weight: bold;
+  opacity: 1;
 }
 
 .heading-list-item .text-wrap .text:hover::after {
   font-size: 8px;
 }
 
-
+/*鼠标触碰时指示条样式*/
 .heading-list-item:hover .line-wrap .line {
-  opacity: 0;
+  /*opacity: 0;*/
+  background: rgb(var(--floating-toc-highlight-color-rgb),0.8);
   pointer-events: none;
 }
 
+/*鼠标触碰时标题出现*/
 .heading-list-item:hover .text-wrap {
   opacity: 1;
   pointer-events: all;
 }
-.heading-list-item[data-level="2"] .text-wrap {
+
+
+/*.heading-list-item[data-level="2"] .text-wrap {
   margin-left: 0.5rem;
   
 }
@@ -471,10 +491,49 @@ body.enable-heading-nowrap .heading-list-item .text-wrap .text {
 }
 .heading-list-item[data-level="6"] .text-wrap {
   margin-left: 2.5rem;
+}*/
+
+.heading-list-item[data-level="1"] .text-wrap {
+  margin-left: 1.5rem;
   
 }
+.heading-list-item[data-level="2"] .text-wrap {
+  margin-left: 2rem;
+  
+}
+.heading-list-item[data-level="3"] .text-wrap {
+  margin-left: 2.5rem;
+}
+.heading-list-item[data-level="4"] .text-wrap {
+  margin-left: 3rem;
+}
+.heading-list-item[data-level="5"] .text-wrap {
+  margin-left: 3.5rem;
+ 
+}
+.heading-list-item[data-level="6"] .text-wrap {
+  margin-left: 4rem;
+}
 
-.heading-list-item[data-level="1"] {
+/*Add*/
+.heading-list-item[data-level="2"] .line-wrap .line {
+  width: 18px;
+}
+.heading-list-item[data-level="3"] .line-wrap .line {
+  width: 16px;
+}
+.heading-list-item[data-level="4"] .line-wrap .line {
+  width: 14px;
+}
+.heading-list-item[data-level="5"] .line-wrap .line {
+  width: 12px;
+}
+.heading-list-item[data-level="6"] .line-wrap .line {
+  width: 10px;
+}
+
+/*缩进*/
+/*.heading-list-item[data-level="1"] {
   padding-left: 0rem;
 }
 
@@ -551,7 +610,7 @@ body.enable-heading-nowrap .heading-list-item .text-wrap .text {
   font-weight: normal !important;
   padding: 1px 2px 1px 2px;
 }
-
+*/
 
 .floating-toc {
   overflow: hidden;
@@ -564,12 +623,12 @@ body.enable-heading-nowrap .heading-list-item .text-wrap .text {
   flex-direction: column;
   justify-content: flex-start;
   bottom: 40px;
-  /* width: 13rem; */
   scroll-behavior: smooth;
   min-height: max-content;
   max-height: calc(100% - 135px) ;
   left:var(--floating-toc-position);
   padding-top: 0.5rem;
+  /*padding-top: 0rem;*/
 }
 
 .floating-toc-div.pin .floating-toc,
@@ -577,7 +636,7 @@ body.enable-heading-nowrap .heading-list-item .text-wrap .text {
   z-index: 2;
   align-items: flex-start;
   min-width: 6rem;
-  max-width: var( --floating-toc-line-width);
+  max-width: var(--floating-toc-line-width);
   width: auto;
   overflow-y: auto;
   background: var(--floating-toc-background-color);
@@ -595,7 +654,7 @@ body:not(.enable-heading-nowrap) .floating-toc:hover .heading-list-item {
 }
 .floating-toc-div:is(.hover,.pin) .floating-toc .heading-list-item
 {
-  padding:0 1rem;
+  /*padding:0 1rem;*/
 }
  
 .floating-toc-div.pin .floating-toc .heading-list-item
@@ -623,7 +682,7 @@ body.enable-heading-nowrap .floating-toc:hover .heading-list-item>.text-wrap {
 
 .floating-toc-div.pin .heading-list-item>.line-wrap,
 .floating-toc:hover .heading-list-item>.line-wrap {
-  display: none;
+  /*display: none;*/
 
 }
 
@@ -633,7 +692,7 @@ body.enable-heading-nowrap .floating-toc:hover .heading-list-item>.text-wrap {
 } */
 
  
-
+/*调整正文的位置*/
 .workspace-leaf-content .floating-toc-div:is(.floating-left,.floating-both)+.markdown-source-view>.cm-editor {
   padding-left:  2rem;
 }
@@ -776,7 +835,9 @@ body.enable-heading-nowrap .floating-toc:hover .heading-list-item>.text-wrap {
   background: var(--floating-toc-background-color);
   position: fixed;
   top: 75px;
-  margin-left: 10px;
+  /*margin-left: 10px;*/
+  margin-left: 0px;
+
 }
 .floating-toc-div.pin .toolbar.pin 
 {
@@ -892,7 +953,7 @@ opacity: var(--focus-heading);
 
  
 
-/****enable-bar-heading-text**/
+/*在指示条旁边显示上下级*/
 
 body.enable-bar-heading-text .floating-toc-div:not(:is(.hover,.pin)) .heading-list-item:is(.located,.focus)
 {
@@ -901,7 +962,8 @@ width:unset;
 body.enable-bar-heading-text  .floating-toc-div:not(:is(.hover,.pin)) .heading-list-item:is(.located,.focus) .text-wrap
 {
   opacity: 1;
-  margin-left: 10px;
+  /*margin-left: 10px;*/
+  margin-left: 15px;
  
 }
 body.enable-bar-heading-text .floating-toc-div:not(:is(.hover,.pin)) .heading-list-item:is(.located,.focus) .text-wrap .text
